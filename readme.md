@@ -55,7 +55,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/lakshman-luq/ml_dvc_demo",
-    author_email="lakshman@gmail.com",
+    author_email="user@gmail.com",
     packages=["src"],
     python_requires=">=3.7",
     install_requires=[
