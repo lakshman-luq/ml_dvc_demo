@@ -11,6 +11,13 @@ def evalute_metrics(actual_values, predicted_values):
     r2 = r2_score(actual_values, predicted_values)
     return rmse, mae, r2
 
+def adjusted_r2(x, y, model):
+     r2 = model.score(x, y)
+     n = x.shape[0]
+     p = x.shape[1]
+     adj_r2 = 1 - (1-r2)*(n-1)/(n-p-1)
+     return adj_r2
+
 def evaluate(config_path, params_path):
     params = read_yaml(params_path)
     config = read_yaml(config_path)
@@ -34,6 +41,7 @@ def evaluate(config_path, params_path):
 
     predicted_values = lr.predict(test_x)
     rmse, mae, r2 = evalute_metrics(test_y, predicted_values)
+    adj_r2 = adjusted_r2(test_x, test_y, lr)
 
     scores_dir = config['artifacts']['reports_dir']
     scores_filename = config['artifacts']['scores']
@@ -45,7 +53,8 @@ def evaluate(config_path, params_path):
     scores = {
         'rmse':rmse,
         'mae':mae,
-        'r2':r2
+        'r2':r2,
+        'adj_r2':adj_r2
     }
     save_reports(scores, scores_filepath)
 
